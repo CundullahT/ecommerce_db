@@ -47,4 +47,10 @@ public class Product extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "sub_category_id"))
     private List<SubCategory> subCategories;
 
+    @ManyToMany
+    @JoinTable(name = "product_attribute_values_rel",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "attribute_value_id"))
+    private List<AttributeValue> attributeValues;
+
 }

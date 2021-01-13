@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Table(name = "sub_categories", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "category_id"})})
 public class SubCategory extends BaseEntity {
 
-
     private String name;
 
     @ManyToOne

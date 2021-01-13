@@ -2,6 +2,7 @@ package com.ecommerce_db.model;
 
 
 import com.ecommerce_db.enums.Condition;
+import com.ecommerce_db.enums.ProductStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,9 @@ public class Product extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Condition condition;
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus productStatus;
 
     @ManyToOne
     @JoinColumn(name = "currency_id")

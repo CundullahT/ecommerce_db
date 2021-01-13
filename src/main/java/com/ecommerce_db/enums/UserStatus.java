@@ -1,12 +1,12 @@
 package com.ecommerce_db.enums;
 
-public enum OrderItemStatus {
+public enum UserStatus {
 
-    STOCKABLE("Stockable"), TRANSACTABLE("Transactable"), PURCHASABLE("Purchasable");
+    ACTIVE("Active"), PENDING("Pending"), SUSPENDED("Suspended");
 
     private final String value;
 
-    private OrderItemStatus(String value){
+    private UserStatus(String value){
         this.value=value;
     }
 

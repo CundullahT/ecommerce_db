@@ -3,6 +3,7 @@ package com.ecommerce_db.services;
 import com.ecommerce_db.model.Category;
 import com.ecommerce_db.model.SubCategory;
 import com.ecommerce_db.repository.SubCategoryRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class SubCategoryService {
     }
 
     public SubCategory create(SubCategory subCategory) throws Exception {
-        Optional<SubCategory> foundedSubCategory = subCategoryRepository.findByNameAndCategoryId(subCategory.getName(), subCategory.getCategory().getId());
 
+        Optional<SubCategory> foundedSubCategory = subCategoryRepository.findByNameAndCategoryId(subCategory.getName(), subCategory.getCategory().getId());
         if(foundedSubCategory.isPresent()) throw new Exception("Sub Category Already Exists.");
 
         return subCategoryRepository.save(subCategory);
@@ -36,7 +37,7 @@ public class SubCategoryService {
     }
 
     public List<SubCategory> readAll(){
-        return subCategoryRepository.findAll();
+        return subCategoryRepository.findAll(Sort.by("name"));
     }
 
     public SubCategory readById(Integer id){

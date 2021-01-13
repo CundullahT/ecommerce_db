@@ -22,8 +22,8 @@ public class CategoryService {
 
     public Category create(Category category) throws Exception {
 
-        categoryRepository.findByName(category.getName())
-                .orElseThrow(() -> new Exception("This Category Already Exist."));
+        Optional<Category> foundedCategory = categoryRepository.findByName(category.getName());
+        if(foundedCategory.isPresent()) throw new Exception("This Category Already Exists.");
 
         return categoryRepository.save(category);
 

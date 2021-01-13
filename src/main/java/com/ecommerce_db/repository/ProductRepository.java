@@ -1,6 +1,7 @@
 package com.ecommerce_db.repository;
 
 import com.ecommerce_db.enums.ProductStatus;
+import com.ecommerce_db.model.Currency;
 import com.ecommerce_db.model.Product;
 import com.ecommerce_db.model.Uom;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     List<Product> findAllByUom(Uom uom);
     List<Product> findAllByProductStatus(ProductStatus productStatus);
+    List<Product> findAllByCurrency(Currency currency);
 
 }

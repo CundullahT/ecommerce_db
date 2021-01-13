@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,5 +18,8 @@ public class Currency extends BaseEntity {
 
     private String name;
     private String symbol;
+
+    @OneToMany(mappedBy = "currency")
+    private List<Product> product;
 
 }

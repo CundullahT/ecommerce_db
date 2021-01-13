@@ -50,13 +50,13 @@ public class CategoryService {
     public void deleteById(Integer id) throws Exception {
 
         Category foundedCategory = categoryRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such Category"));
-
         List<SubCategory> subCategories = subCategoryService.readAllByCategory(foundedCategory);
 
         if(subCategories.size() > 0) throw new Exception("This Category Has SubCategories So It Can Not Be Deleted.");
 
         foundedCategory.setName(foundedCategory.getName() + "-" + foundedCategory.getId());
         foundedCategory.setIsDeleted(true);
+
         categoryRepository.save(foundedCategory);
 
     }

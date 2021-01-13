@@ -1,6 +1,7 @@
 package com.ecommerce_db.services;
 
 import com.ecommerce_db.enums.ProductStatus;
+import com.ecommerce_db.model.Currency;
 import com.ecommerce_db.model.Product;
 import com.ecommerce_db.model.Uom;
 import com.ecommerce_db.repository.ProductRepository;
@@ -52,6 +53,10 @@ public class ProductService {
 
     public List<Product> readAllByUom(Uom uom){
         return productRepository.findAllByUom(uom);
+    }
+
+    public List<Product> readAllByCurrency(Currency currency){
+        return productRepository.findAllByCurrency(currency);
     }
 
     public void deleteById(Integer id) throws Exception {

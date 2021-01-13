@@ -47,8 +47,10 @@ public class SubCategoryService {
     public void deleteById(Integer id) throws Exception {
 
         SubCategory foundedSubCategory = subCategoryRepository.findById(id).orElseThrow(() -> new Exception("This SubCategory Doesn't Exists."));
+
         foundedSubCategory.setName(foundedSubCategory.getName() + "-" + foundedSubCategory.getId());
         foundedSubCategory.setIsDeleted(true);
+
         subCategoryRepository.save(foundedSubCategory);
 
     }

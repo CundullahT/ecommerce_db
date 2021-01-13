@@ -55,10 +55,11 @@ public class UomService {
         Uom foundedUom = uomRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such Unit Of Measure."));
         List<Product> products = productService.readAllByUom(foundedUom);
 
-        if (products.size() > 0) throw new Exception("This Unit Of Measure Is Related With A Product(s).");
+        if (products.size() > 0) throw new Exception("This Unit Of Measure Is Related With A Product(s) So It Can Not Be Deleted.");
 
         foundedUom.setName(foundedUom.getName() + "-" + foundedUom.getId());
         foundedUom.setIsDeleted(true);
+
         uomRepository.save(foundedUom);
 
     }

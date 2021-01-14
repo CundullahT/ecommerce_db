@@ -57,4 +57,13 @@ public class OrderService {
         return orderRepository.findByUserAndStatus(user, status);
     }
 
+//    public void deleteById(Integer id) throws Exception {
+//
+//        Order foundedOrder = orderRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such Order."));
+//
+//        foundedOrder.setIsDeleted(true);
+//        orderRepository.save(foundedOrder);
+//
+//    }
+
 }

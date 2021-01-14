@@ -58,12 +58,13 @@ public class ProductService {
         return productRepository.findAllByCurrency(currency);
     }
 
-    public void deleteById(Integer id) throws Exception {
-
-        Product foundedProduct = productRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such Product."));
-        foundedProduct.setIsDeleted(true);
-        productRepository.save(foundedProduct);
-
-    }
+//    public void deleteById(Integer id) throws Exception {
+//
+//        Product foundedProduct = productRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such Product."));
+//
+//        foundedProduct.setIsDeleted(true);
+//        productRepository.save(foundedProduct);
+//
+//    }
 
 }

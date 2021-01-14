@@ -1,5 +1,6 @@
 package com.ecommerce_db.services;
 
+import com.ecommerce_db.enums.UserStatus;
 import com.ecommerce_db.model.User;
 import com.ecommerce_db.repository.UserRepository;
 import org.springframework.data.domain.Sort;
@@ -49,6 +50,10 @@ public class UserService {
 
     public User readByEmail(String email){
         return userRepository.findByEmail(email).orElse(null);
+    }
+
+    public List<User> readByStatus(UserStatus status){
+        return userRepository.findByStatus(status);
     }
 
 //    public void deleteById(Integer id) throws Exception {

@@ -15,10 +15,12 @@ import javax.persistence.*;
 public class Order extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.PENDING;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
 }
+
+//TODO orderDate.

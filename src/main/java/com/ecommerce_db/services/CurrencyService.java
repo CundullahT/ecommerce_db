@@ -42,8 +42,8 @@ public class CurrencyService {
         return currencyRepository.findAll(Sort.by("name"));
     }
 
-    public Currency readById(Integer id){
-        return currencyRepository.findById(id).orElse(null);
+    public Currency readById(Integer id) throws Exception {
+        return currencyRepository.findById(id).orElseThrow(() -> new Exception(""));
     }
 
     public Currency readByProduct(Product product){

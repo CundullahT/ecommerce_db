@@ -1,6 +1,7 @@
 package com.ecommerce_db.services;
 
 import com.ecommerce_db.enums.OrderItemStatus;
+import com.ecommerce_db.enums.OrderStatus;
 import com.ecommerce_db.model.Order;
 import com.ecommerce_db.model.OrderItem;
 import com.ecommerce_db.model.Product;
@@ -15,12 +16,28 @@ import java.util.Optional;
 public class OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
+    private final OrderService orderService;
 
-    public OrderItemService(OrderItemRepository orderItemRepository) {
+    public OrderItemService(OrderItemRepository orderItemRepository, OrderService orderService) {
         this.orderItemRepository = orderItemRepository;
+        this.orderService = orderService;
     }
 
     public OrderItem create(OrderItem orderItem) throws Exception {
+
+        List<Order> orders = orderService.readAllByUserAndStatus(orderItem.getOrder().getUser(), OrderStatus.PENDING);
+
+        if(orders.size() > 0){
+            Order currentOrder = orders.get(0);
+            orderItem.setOrder(currentOrder);
+        }
+
+//        {
+//            product: {id: 1},
+//            price: 20.25,
+//            quantity: 2,
+//            order: {user: {id: 1}}
+//        }
 
         Optional<OrderItem> foundedOrderItem = orderItemRepository.findById(orderItem.getId());
         if(foundedOrderItem.isPresent()) throw new Exception("This Order Item Already Exists.");

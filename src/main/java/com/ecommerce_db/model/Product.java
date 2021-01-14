@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -18,13 +20,17 @@ import java.util.List;
 @Table(name = "products")
 public class Product extends BaseEntity {
 
+    @Column(nullable = false)
     private String name;
 
     @Column(columnDefinition = "text")
     private String description;
 
+//    @Positive
+    @DecimalMin("0.00")
     private BigDecimal price;
 
+    @Positive
     private Integer quantity;
 
     private BigDecimal volume;

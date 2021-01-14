@@ -26,4 +26,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+//TODO    firstname, lastname, phonennumber, address, birthday
+
 }

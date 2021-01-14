@@ -19,7 +19,7 @@ public class OrderItem extends BaseEntity {
 
     private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private Order order;
 
@@ -28,3 +28,5 @@ public class OrderItem extends BaseEntity {
     private Product product;
 
 }
+
+//TODO productHistory, price.

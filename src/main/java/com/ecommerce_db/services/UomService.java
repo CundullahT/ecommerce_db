@@ -43,7 +43,7 @@ public class UomService {
     }
 
     public Uom readById(Integer id) throws Exception {
-        return uomRepository.findById(id).orElse(null);
+        return uomRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such Unit Of Measure."));
     }
 
     public Uom readByProduct(Product product){
@@ -52,7 +52,7 @@ public class UomService {
 
     public void deleteById(Integer id) throws Exception {
 
-        Uom foundedUom = uomRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such Unit Of Measure."));
+        Uom foundedUom = readById(id);
         List<Product> products = productService.readAllByUom(foundedUom);
 
         if (products.size() > 0) throw new Exception("This Unit Of Measure Is Related With A Product(s) So It Can Not Be Deleted.");

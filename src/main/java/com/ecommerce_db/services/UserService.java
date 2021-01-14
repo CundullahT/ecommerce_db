@@ -6,6 +6,7 @@ import com.ecommerce_db.repository.UserRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,10 @@ public class UserService {
 
         User foundedUser = userRepository.findById(user.getId()).orElseThrow(() -> new Exception("There Is No Such User."));
 
+//        if(!foundedUser.getEmail().equals(user.getEmail())){
+//            //TODO what if user change email
+//        }
+
         user.setId(foundedUser.getId());
         userRepository.save(user);
 
@@ -40,8 +45,8 @@ public class UserService {
         return userRepository.findAll(Sort.by("username"));
     }
 
-    public User readById(Integer id){
-        return userRepository.findById(id).orElse(null);
+    public User readById(Integer id) throws Exception {
+        return userRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such User"));
     }
 
     public User readByUsername(String username){
@@ -54,6 +59,12 @@ public class UserService {
 
     public List<User> readByStatus(UserStatus status){
         return userRepository.findByStatus(status);
+    }
+
+    @Transactional
+    public void deActivateAccount(Integer id) throws Exception {
+        readById(id).setStatus(UserStatus.SUSPENDED);
+        userRepository.save(readById(id));
     }
 
 //    public void deleteById(Integer id) throws Exception {

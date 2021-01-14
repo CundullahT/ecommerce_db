@@ -21,9 +21,12 @@ public class CurrencyService {
     }
 
     public Currency create(Currency currency) throws Exception {
+
         Optional<Currency> foundedCurrency = currencyRepository.findByNameAndSymbol(currency.getName(), currency.getSymbol());
         if (foundedCurrency.isPresent()) throw new Exception("This Currency Already Exists.");
+
         return currencyRepository.save(currency);
+
     }
 
     public void update(Currency currency) throws Exception {

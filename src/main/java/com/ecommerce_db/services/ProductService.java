@@ -23,7 +23,6 @@ public class ProductService {
     public Product create(Product product) throws Exception {
 
         Optional<Product> foundedProduct = productRepository.findById(product.getId());
-
         if (foundedProduct.isPresent()) throw new Exception("This Product Already Exists");
 
         return productRepository.save(product);

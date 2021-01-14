@@ -2,6 +2,7 @@ package com.ecommerce_db.services;
 
 import com.ecommerce_db.enums.OrderStatus;
 import com.ecommerce_db.model.Order;
+import com.ecommerce_db.model.OrderItem;
 import com.ecommerce_db.model.User;
 import com.ecommerce_db.repository.OrderRepository;
 import org.springframework.data.domain.Sort;
@@ -14,9 +15,11 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderItemService orderItemService;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, OrderItemService orderItemService) {
         this.orderRepository = orderRepository;
+        this.orderItemService = orderItemService;
     }
 
     public Order create(Order order) throws Exception {
@@ -57,13 +60,16 @@ public class OrderService {
         return orderRepository.findByUserAndStatus(user, status);
     }
 
-//    public void deleteById(Integer id) throws Exception {
-//
-//        Order foundedOrder = orderRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such Order."));
-//
-//        foundedOrder.setIsDeleted(true);
-//        orderRepository.save(foundedOrder);
-//
-//    }
+    public void deleteById(Integer id) throws Exception {
+
+        Order foundedOrder = orderRepository.findById(id).orElseThrow(() -> new Exception("There Is No Such Order."));
+        List<OrderItem> orderItems = orderItemService.readAllByOrder(foundedOrder);
+
+        if (orderItems.size() > 0) throw new Exception("This Order Has Order Items So It Can Not Be Deleted.");
+
+        foundedOrder.setIsDeleted(true);
+        orderRepository.save(foundedOrder);
+
+    }
 
 }

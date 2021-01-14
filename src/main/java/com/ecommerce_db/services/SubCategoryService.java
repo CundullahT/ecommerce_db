@@ -28,6 +28,7 @@ public class SubCategoryService {
     }
 
     public void update(SubCategory subCategory) throws Exception {
+
         SubCategory foundedSubCategory = subCategoryRepository.findByNameAndCategoryId(subCategory.getName(), subCategory.getCategory().getId())
                 .orElseThrow(() -> new Exception("This SubCategory Does Not Exist."));
 

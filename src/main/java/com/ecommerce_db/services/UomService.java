@@ -32,8 +32,8 @@ public class UomService {
     public void update(Uom uom) throws Exception {
 
         Uom foundedUom = uomRepository.findByName(uom.getName()).orElseThrow(() -> new Exception("There Is No Such Unit Of Measure."));
-        uom.setId(foundedUom.getId());
 
+        uom.setId(foundedUom.getId());
         uomRepository.save(uom);
 
     }

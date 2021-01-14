@@ -31,8 +31,8 @@ public class OrderService {
     public void update(Order order) throws Exception {
 
         Order foundedOrder = orderRepository.findById(order.getId()).orElseThrow(() -> new Exception("There Is No Such Order."));
-        order.setId(foundedOrder.getId());
 
+        order.setId(foundedOrder.getId());
         orderRepository.save(order);
 
     }

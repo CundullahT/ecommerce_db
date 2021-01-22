@@ -1,6 +1,5 @@
 package com.ecommerce_db.services;
 
-import com.ecommerce_db.enums.OrderItemStatus;
 import com.ecommerce_db.enums.OrderStatus;
 import com.ecommerce_db.model.Order;
 import com.ecommerce_db.model.OrderItem;
@@ -97,7 +96,7 @@ public class OrderItemService {
         return orderItemRepository.findByOrder(order);
     }
 
-    public List<OrderItem> readAllByStatus(OrderItemStatus status){
+    public List<OrderItem> readAllByStatus(OrderStatus status){
         return orderItemRepository.findByStatus(status);
     }
 
@@ -105,7 +104,7 @@ public class OrderItemService {
         return orderItemRepository.findByProduct(product).orElse(null);
     }
 
-    public List<OrderItem> readAllByOrderAndStatus(Order order, OrderItemStatus status){
+    public List<OrderItem> readAllByOrderAndStatus(Order order, OrderStatus status){
         return orderItemRepository.findByOrderAndStatus(order,status);
     }
 

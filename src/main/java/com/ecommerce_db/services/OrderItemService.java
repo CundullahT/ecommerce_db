@@ -5,26 +5,31 @@ import com.ecommerce_db.enums.OrderStatus;
 import com.ecommerce_db.model.Order;
 import com.ecommerce_db.model.OrderItem;
 import com.ecommerce_db.model.Product;
+import com.ecommerce_db.model.User;
+import com.ecommerce_db.model.dto.CustomOrderItemDTO;
 import com.ecommerce_db.repository.OrderItemRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
     private final OrderService orderService;
+    private final UserService userService;
 
-    public OrderItemService(OrderItemRepository orderItemRepository, OrderService orderService) {
+    public OrderItemService(OrderItemRepository orderItemRepository, OrderService orderService, UserService userService) {
         this.orderItemRepository = orderItemRepository;
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     public OrderItem create(OrderItem orderItem) throws Exception {
-
+//TODO Get currentUser
         List<Order> orders = orderService.readAllByUserAndStatus(orderItem.getOrder().getUser(), OrderStatus.PENDING);
 
         if(orders.size() > 0){
@@ -32,17 +37,42 @@ public class OrderItemService {
             orderItem.setOrder(currentOrder);
         }
 
-//        {
-//            product: {id: 1},
-//            price: 20.25,
-//            quantity: 2,
-//            order: {user: {id: 1}}
-//        }
+//TODO Get currentUser
+        Optional<OrderItem> foundedItem = orderItemRepository
+                .findAllByProductIdAndOrderUserIdAndOrderStatus(orderItem.getOrder().getId(),
+                orderItem.getOrder().getUser().getId(),
+                OrderStatus.PENDING);
 
-        Optional<OrderItem> foundedOrderItem = orderItemRepository.findById(orderItem.getId());
-        if(foundedOrderItem.isPresent()) throw new Exception("This Order Item Already Exists.");
+        if(foundedItem.isPresent()){
+            foundedItem.get().setPrice(orderItem.getPrice());
+            foundedItem.get().setQuantity(orderItem.getQuantity());
+            return orderItemRepository.save(foundedItem.get());
+        }
 
         return orderItemRepository.save(orderItem);
+
+    }
+
+    public List<OrderItem> buildOrderItems(CustomOrderItemDTO orderItemDTO){
+//TODO Get currentUser
+        User currentUser = userService.readByEmail("admin@admin.com");
+        List<Order> orders = orderService.readAllByUserAndStatus(currentUser, OrderStatus.PENDING);
+        Order currentOrder = orders.get(0);
+
+        currentOrder.setBilling(orderItemDTO.getBilling());
+        currentOrder.setShipping(orderItemDTO.getShipping());
+        currentOrder.setStatus(OrderStatus.PAYED);
+
+        List<OrderItem> orderItems =
+                orderItemDTO.getOrderItems().stream().peek(orderItem -> {
+
+                    currentOrder.setTotalPrice(currentOrder.getTotalPrice().add(orderItem.getPrice()));
+                    orderItem.setStatus(OrderStatus.APPROVED);
+                    orderItem.setOrder(currentOrder);
+
+        }).collect(Collectors.toList());
+
+        return orderItemRepository.saveAll(orderItemDTO.getOrderItems());
 
     }
 

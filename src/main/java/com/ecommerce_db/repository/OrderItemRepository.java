@@ -1,6 +1,7 @@
 package com.ecommerce_db.repository;
 
 import com.ecommerce_db.enums.OrderItemStatus;
+import com.ecommerce_db.enums.OrderStatus;
 import com.ecommerce_db.model.Order;
 import com.ecommerce_db.model.OrderItem;
 import com.ecommerce_db.model.Product;
@@ -17,5 +18,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Integer> {
     List<OrderItem> findByOrder(Order order);
     List<OrderItem> findByOrderAndStatus(Order order, OrderItemStatus status);
     Optional<OrderItem> findByProduct(Product product);
+    Optional<OrderItem> findAllByProductIdAndOrderUserIdAndOrderStatus(Integer productId, Integer userId, OrderStatus Status);
 
 }

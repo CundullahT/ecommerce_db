@@ -18,3 +18,5 @@ public abstract class BaseEntity {
     private Boolean isDeleted;
 
 }
+
+//TODO Add Id as Generic. And update all other classes.
